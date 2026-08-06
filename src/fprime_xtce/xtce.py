@@ -311,7 +311,12 @@ def write_xtce_xml(structure: Dict[str, Any], file_path: str):
     # Write the XML tree to file with declaration and indentation
     tree = ET.ElementTree(element)
     ET.indent(tree, space="  ", level=0)
-    tree.write(file_or_filename=file_path, encoding="utf-8", xml_declaration=True)
+
+    # Ensure parent directory exists
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Convert Path to string for Python 3.14+ compatibility
+    tree.write(file_or_filename=str(file_path), encoding="utf-8", xml_declaration=True)
 
 
 def validate_xtce(xml_path: Path) -> Tuple[bool, List[str]]:
